@@ -21,10 +21,19 @@ Sine and cosine functions of different frequencies are used:
 $$
 PE_{(pos,2i)}=\sin(pos/10000^{2i/d_{model}}) \\
 $$
+
 $$
 PE_{(pos,2i+1)}=\cos(pos/10000^{2i/d_{model}}) \\
 $$
 
 In the input vector sine function is applied to the even positions and cos is applied to the odd positions.
+
+### Layer Normalization
+This is where mean and variance are calculated independently for each batch and new value is calculated for each of them, Also **gamma** and **beta** are introduced to provide some fluctuation in the data. 
+
+$$
+\hat{x_{j}}=\frac{x_{j}-\mu_{j}}{\sqrt{\sigma^2_{j}+\epsilon}}
+$$
+
 
 
