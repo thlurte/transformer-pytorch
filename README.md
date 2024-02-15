@@ -17,13 +17,14 @@ The positional encodings have the same dimension $d_{model}$ as the embeddings, 
 > Denominator is calculated in log space.
 
 Sine and cosine functions of different frequencies are used:
-$$
-\begin{align}
-PE_{(pos,2i)}=\sin(pos/10000^{2i/d_{model}}) \\
-PE_{(pos,2i+1)}=\cos(pos/10000^{2i/d_{model}}) \\
 
-\end{align}
 $$
+PE_{(pos,2i)}=\sin(pos/10000^{2i/d_{model}}) \\
+$$
+$$
+PE_{(pos,2i+1)}=\cos(pos/10000^{2i/d_{model}}) \\
+$$
+
 In the input vector sine function is applied to the even positions and cos is applied to the odd positions.
 
 
