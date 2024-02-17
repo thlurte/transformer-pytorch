@@ -54,7 +54,7 @@ class PositionalEncoding(nn.Module):
     
 class LayerNormalization(nn.Module):
     
-    def __init__(self,eps: float=10**-6,*args, **kwargs) -> None:
+    def __init__(self,eps:float=10**-6,*args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.eps=eps
         self.alpha=nn.Parameter(torch.ones(1))
@@ -155,4 +155,17 @@ class MultiHeadAttentionBlock(nn.Module):
 
         return self.w_o(x)
 
+# -------------------------------------------------------------------------------- #
+
+
+# ----------------------------    Residual Connection     ------------------------ #
+class ResidualConnection(nn.Module):
+    def __init__(self, dropout:float, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.dropout=nn.Dropout(dropout)
+        self.norm=LayerNormalization()
+
+    def forward(self,x,sublayer):
+        return x + self.dropout(sublayer(self.norm(x)))
 # -------------------------------------------------------------------------------- #

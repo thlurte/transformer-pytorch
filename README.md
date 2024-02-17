@@ -58,9 +58,10 @@ $$
 Then attention is applied to each of the split matrices and the result matrices are concatenated and multiplied by $W$ to get output.
 
 $$
-Multi(K,Q,V)=Concat(head_{i}...head_{n})W^{O}
+MultiHead(K,Q,V)=Concat(head_{i}...head_{n})W^{O}
 $$
 
-In this work $h=8$, parallel attention layers, or heads are employed. For each of these $d_{k}$=$d_{c}$=$d_{model}/h=64$.
+In this work $h=8$, parallel attention layers, or heads are employed. For each of these $d_{k}=d_{c}=d_{model}/h=64$.
+
 
 
