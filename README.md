@@ -63,5 +63,7 @@ $$
 
 In this work $h=8$, parallel attention layers, or heads are employed. For each of these $d_{k}=d_{c}=d_{model}/h=64$.
 
+### Encoder
+The encoder is composed of a stack of $N = 6$ identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, positionwise fully connected feed-forward network. residual connection is employed around each of the two sub-layers, followed by layer normalization.
 
 
