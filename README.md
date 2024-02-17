@@ -41,6 +41,26 @@ Each of the layers in the encoder and decoder contains a fully connected feed-fo
 $$
 FFN(x)=max(,xW_{1}+b_{1})W_{2}+b_{2}
 $$
+
 The dimensionality of input and output is $d_{model}=512$ and, the inner-layer has dimensionality $d_{jj}=2048$.
+
+### Multi-head Attention
+Multi-head attention takes input from the positional encoding and uses it three times. Where $Q$ means query, $K$ means key and $V$ means value. These three input matrices then are multiplied by weights and split into `h` matrices. (These matrices are split along embedding dimension).
+
+$$
+Attention(K,Q,V)=softmax\Big(\frac{QK^T}{\sqrt{d_{k}}}\Big)V
+$$
+
+$$
+head_{i}=Attention(QW_{i}^Q,KW_{i}^K,VW_{i}^W)
+$$
+
+Then attention is applied to each of the split matrices and the result matrices are concatenated and multiplied by $W$ to get output.
+
+$$
+Multi(K,Q,V)=Concat(head_{i}...head_{n})W^{O}
+$$
+
+In this work $h=8$, parallel attention layers, or heads are employed. For each of these $d_{k}$=$d_{c}$=$d_{model}/h=64$.
 
 
