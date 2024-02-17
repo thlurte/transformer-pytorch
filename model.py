@@ -247,3 +247,17 @@ class Decoder(nn.Module):
         return self.norm(x)
     
 # -------------------------------------------------------------------------------- #
+    
+
+# ----------------------------        Projection Layer       --------------------- #
+    
+class ProjectionLayer(nn.Module):
+    def __init__(self, d_model:int, vocab_size:int ,*args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.proj=nn.Linear(d_model,vocab_size)
+
+    def forward(self,x):
+        # (Batch, seq_len, d_model)  -->  (Batch, seq_len, vocab_size)
+        return torch.log_softmax(self.proj(x), dim=-1)
+
+# -------------------------------------------------------------------------------- #
