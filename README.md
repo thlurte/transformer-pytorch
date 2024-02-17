@@ -35,5 +35,12 @@ $$
 \hat{x_{j}}=\frac{x_{j}-\mu_{j}}{\sqrt{\sigma^2_{j}+\epsilon}}
 $$
 
+### Feed Forward Network
+Each of the layers in the encoder and decoder contains a fully connected feed-forward network. This consists of two linear transformations with a ReLU activation in between.
+
+$$
+FFN(x)=max(,xW_{1}+b_{1})W_{2}+b_{2}
+$$
+The dimensionality of input and output is $d_{model}=512$ and, the inner-layer has dimensionality $d_{jj}=2048$.
 
 
