@@ -62,11 +62,11 @@ def get_ds(config):
     for item in ds_raw:
         src_ids=tokenizer_src.encode(item['translation'][config['lang_src']]).ids
         tgt_ids=tokenizer_src.encode(item['translation'][config['lang_tgt']]).ids
-        max_len_src=max(src_ids,max_len_src)
-        max_len_tgt=max(tgt_ids,max_len_tgt)
+        max_len_src=max(len(src_ids),max_len_src)
+        max_len_tgt=max(len(tgt_ids),max_len_tgt)
 
     print(f"The length of the source sentence {max_len_src}")
-    print(f"The length of the source sentence {max_len_tgt}")
+    print(f"The length of the target sentence {max_len_tgt}")
 
     train_dataloader=DataLoader(train_ds,batch_size=config['batch_size'],shuffle=True)
     val_dataloader=DataLoader(val_ds,batch_size=1,shuffle=True)
@@ -75,7 +75,7 @@ def get_ds(config):
 
 
 def get_model(config,vocab_src_len,vocab_tgt_len):
-    model=build_transformer(vocab_src_len,vocab_tgt_len,config['seq_len'],config['seq_len'],config['d_model'])
+    model=build_transformer(vocab_src_len,vocab_tgt_len,config['seq_len'],config['seq_len'],d_model=config['d_model'])
     return model
 
 
@@ -102,6 +102,8 @@ def train_model(config):
         initial_epoch=state['epoch']+1
         optimizer.load_state_dict(state['optimizer_state_dict'])
         global_dict=state['global_step']
+    else:
+        print('No model to preload, starting from the begining')
 
     loss_fn=nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'),label_smoothing=0.1).to(device=device)
 

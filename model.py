@@ -48,7 +48,7 @@ class PositionalEncoding(nn.Module):
 
 
     def forward(self,x):
-        x=x+(self.pe[:,:x.shape[1],:]).required_grad_(False)
+        x=x+(self.pe[:,:x.shape[1],:]).requires_grad_(False)
         return self.dropout(x)
     
 # -------------------------------------------------------------------------------- #
@@ -147,10 +147,10 @@ class MultiHeadAttentionBlock(nn.Module):
         query = query.view(query.shape[0],query.shape[1], self.h, self.d_k).transpose(1,2)
         
         # (Batch, seq_len, d_model) --> (Batch,seq_len,h,d_k) --> (Batch,h,seq_len,d_k)
-        key = key.view(key.shape[0],query.shape[1], self.h, self.d_k).transpose(1,2)
+        key = key.view(key.shape[0],key.shape[1], self.h, self.d_k).transpose(1,2)
         
         # (Batch, seq_len, d_model) --> (Batch,seq_len,h,d_k) --> (Batch,h,seq_len,d_k)
-        value = value.view(value.shape[0],query.shape[1], self.h, self.d_k).transpose(1,2)
+        value = value.view(value.shape[0],value.shape[1], self.h, self.d_k).transpose(1,2)
 
         x,self.attention_scores = MultiHeadAttentionBlock.attention(query,key,value,mask,self.dropout)
 
@@ -226,7 +226,6 @@ class DecoderBlock(nn.Module):
         x=self.residual_connections[0](x, lambda x: self.self_attention_block(x,x,x,tgt_mask))
         x=self.residual_connections[1](x, lambda x: self.cross_attention_block(x,encoder_output,encoder_output,src_mask))
         x=self.residual_connections[2](x, self.feed_forward_block)
-
         return x
 
 # -------------------------------------------------------------------------------- #
@@ -277,8 +276,8 @@ class ProjectionLayer(nn.Module):
 
 class Transformer(nn.Module):
     def __init__(self
-                 , decoder:Decoder
-                 , encoder:Encoder
+                 , encoder:Decoder
+                 , decoder:Encoder
                  , src_embed: InputEmbeddings
                  , tgt_embed: InputEmbeddings
                  , src_pos: PositionalEncoding
@@ -308,7 +307,6 @@ class Transformer(nn.Module):
         tgt=self.tgt_pos(tgt)
         return self.decode(tgt, encoder_output, src_mask, tgt_mask)
     
-
     def project(self,x):
         return self.projection_layer(x)
     
