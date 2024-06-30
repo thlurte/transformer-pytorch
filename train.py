@@ -120,11 +120,11 @@ def train_model(config):
             decoder_output=model.decode(encoder_output,encoder_mask,decoder_input,decoder_mask)
             proj_output=model.project(decoder_output)
             
-            label=batch['label'].to(device)
+            label=batch['label'].to(device).long()
             
             loss=loss_fn(proj_output.view(-1,tokenizer_tgt.get_vocab_size()),label.view(-1))
 
-            batch_iterator.set_postfix(f'{loss.item():6.3f}')
+            batch_iterator.set_postfix({"loss": f"{loss.item():6.3f}"})
             writer.add_scaler('training loss:', loss.item(),global_step)
             writer.flush()
 
