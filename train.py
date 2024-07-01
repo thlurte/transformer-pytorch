@@ -125,7 +125,7 @@ def train_model(config):
             loss=loss_fn(proj_output.view(-1,tokenizer_tgt.get_vocab_size()),label.view(-1))
 
             batch_iterator.set_postfix({"loss": f"{loss.item():6.3f}"})
-            writer.add_scaler('training loss:', loss.item(),global_step)
+            writer.add_scalar('training loss:', loss.item(),global_step)
             writer.flush()
 
             loss.backward()
